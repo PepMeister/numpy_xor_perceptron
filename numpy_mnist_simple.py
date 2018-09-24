@@ -32,13 +32,12 @@ input_data_X =  []
 np.array(list(map(lambda x: input_data_X.append(x_train[input_train_set[x][0]]*0.01 ), range(10))))
 
 
-print("\nfirst set:",input_data_X)
-
-output_data_Y =	np.array([[1,0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,0],\
-						 [0,0,1,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0],\
-						 [0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0],\
-						 [0,0,0,0,0,0,1,0,0,0],[0,0,0,0,0,0,0,1,0,0],\
-						 [0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,1]])
+#print("\nfirst set:",input_data_X)
+output_data_Y = np.array([[1,0,0,0,0],[1,0,0,0,1],\
+                          [1,0,0,1,0],[1,0,0,1,1],\
+                          [1,0,1,0,0],[1,0,1,0,1],\
+                          [1,0,1,1,0],[1,0,1,1,1],\
+                          [1,1,0,0,0],[1,1,0,0,1]])
 
 
 def sigmoid(x):
@@ -49,7 +48,7 @@ def sigmoid_to_derivative(output):
 
 np.random.RandomState(2)
 syn_0 = 2*np.random.random((784,11)) - 1
-syn_1 = 2*np.random.random((11,10)) - 1
+syn_1 = 2*np.random.random((11,5)) - 1
 print(syn_0, "\n")
 print(syn_1, "\n")
 
@@ -94,15 +93,19 @@ for it in tqdm(range(lenth)):
 
 print("lost: \n", lay_1_lost, " \n_ \n", "weight: \n", syn_1)
 
-inp_number = 2
+inp_number = 7
 lay_0 = input_data_X[inp_number]                                                                             ##########input
 print("\n-------\n input: \n", (np.array(list(map(lambda x: int(round(x, 1)), input_data_X[inp_number])))).reshape(1,28,28))
 print("-------------")
+
 lay_1 = sigmoid(np.dot(lay_0,syn_0))
 lay_2 = sigmoid(np.dot(lay_1,syn_1))
-print("output:\n ",)
-list(map(lambda x: print(x), lay_2))
 
+print("output:\n",lay_2)
+out = list(map(lambda x: (int(round(x,0))), lay_2))
+out[0] = 0
+print("in binary: ",out)
+print("in decimal: ", int(''.join(str(x) for x in out),2))
 
 plt.plot(np.array(epochnumb), np.array(accuracy[0]),  np.array(epochnumb),\
          np.array(accuracy[1]), np.array(epochnumb), np.array(accuracy[2]), np.array(epochnumb), np.array(accuracy[3]),\
